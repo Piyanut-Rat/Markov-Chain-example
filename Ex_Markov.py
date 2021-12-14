@@ -4,6 +4,8 @@
 Created on Tue Dec 14 18:32:18 2021
 
 @author: piyanut
+
+cite: https://www.youtube.com/watch?v=B9LOMA43tPA&list=PLlCuQCjEEYuRnzjPrZh6ErsB-zfMitjTO&index=2
 """
 
 #import library
@@ -13,6 +15,7 @@ import matplotlib.pyplot as plt
 #input parameters
 all_posible_state = [0,1] # 0 Sunny | 1 Rainy
 num_time_step = 10
+num_sequences = 10
 
 
 #----------------------------------------------------#
@@ -44,6 +47,13 @@ def true_table():
 
     return true_init_prob, true_trans_prob
 
+#sequence generator
+def sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_sequences):
+    
+    all_sequences = [] #list collect all sequence
+    
+
 #----------------------------------------------------#
 #testing
 true_init_prob, true_trans_prob = true_table()
+
