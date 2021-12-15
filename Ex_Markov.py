@@ -52,8 +52,12 @@ def sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_seque
     
     all_sequences = [] #list collect all sequence
     
-
+#----------------------------------------------------#
 #----------------------------------------------------#
 #testing
 true_init_prob, true_trans_prob = true_table()
+
+
+
+
 
