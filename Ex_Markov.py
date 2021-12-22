@@ -52,12 +52,39 @@ def sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_seque
     
     all_sequences = [] #list collect all sequence
     
+    #for each sequence
+    for i in range(0, num_sequences):
+        one_sequence = []
+        
+        #for each time step
+        for j in range(0, num_time_step):
+            random_num = np.random.uniform() # ramdom generate number 0 to 1
+            
+            # if 1st state
+            if j == 0: 
+                if random_num < true_init_prob[0]:
+                    one_sequence.append(0) #if Sunny
+                else:
+                    one_sequence.append(1) #if Rainy
+                    
+            # if not
+            else:
+                current_state = one_sequence[j-1]
+                if random_num < np.amin(true_trans_prob[current_state,:]):
+                    one_sequence.append(np.argmin(true_trans_prob[current_state,:]))
+                else:
+                    one_sequence.append(np.argmax(true_trans_prob[current_state,:]))
+                    
+        #fin one sequence
+        all_sequences.append(one_sequence)
+    return all_sequences
+    
 #----------------------------------------------------#
 #----------------------------------------------------#
 #testing
 true_init_prob, true_trans_prob = true_table()
 
-
+all_sequences = sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_sequences)
 
 
 
