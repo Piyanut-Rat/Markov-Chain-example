@@ -113,7 +113,8 @@ def init_prob_estimator(all_sequences):
         est_init_prob[i] = len(np.argwhere(init_seq == i))
     #sum up to one
     return est_init_prob/est_init_prob.sum()
-    
+
+"""
 #----------------------------------------------------#
 
 #testing
@@ -126,3 +127,29 @@ print("check sum up to 1: ", est_trans_prob.sum(axis = 1))
 
 est_init_prob = init_prob_estimator(all_sequences)
 print("check sum up to 1: ", est_init_prob.sum())
+"""
+#----------------------------------------------------#
+#----------------------------------------------------#
+
+#test1: table : SSE
+#input parameters
+all_posible_state = [0,1] # 0 Sunny | 1 Rainy
+num_time_step = 10
+true_init_prob, true_trans_prob = true_table()
+
+SSE_list = []
+for num_sequences in range(1, 100):
+    #generate data
+    all_sequences = sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_sequences)
+    
+    #estimate transition probability table
+    est_trans_prob = trans_prob_estimator(all_sequences)
+    
+    #measure performance
+    SSE = ((true_init_prob -est_trans_prob)**2).sum()
+    SSE_list.append(SSE)
+    
+#visualise
+plt.figure()
+plt.plot(SSE_list)
+plt.show()
