@@ -91,8 +91,28 @@ def trans_prob_estimator(all_sequences):
             #target transition
             target_transition = [row, col]
             
-            #convert
-        
+            #convert 2 timestep for each sequence
+            for each_step in range(1, len(all_sequences[0])):
+                this_transition = np.array(all_sequences)[:,[each_step-1, each_step]].tolist()
+                
+                for each_seq in this_transition:
+                    if each_seq == target_transition:
+                        est_trans_prob[row, col] +=1
+                        
+            #sum up to one
+            
+            est_trans_prob[row, col] /= len(np.argwhere(np.array(all_sequences)[:,:-1] == row))
+    return est_trans_prob
+                        
+#est init prob
+def init_prob_estimator(all_sequences):
+    init_seq = np.array(all_sequences)[:,0]
+    est_init_prob = np.zeros((2))
+    
+    for i in range(len(all_posible_state)):
+        est_init_prob[i] = len(np.argwhere(init_seq == i))
+    #sum up to one
+    return est_init_prob/est_init_prob.sum()
     
 #----------------------------------------------------#
 
@@ -101,5 +121,8 @@ true_init_prob, true_trans_prob = true_table()
 
 all_sequences = sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_sequences)
 
+est_trans_prob = trans_prob_estimator(all_sequences)
+print("check sum up to 1: ", est_trans_prob.sum(axis = 1))  
 
-
+est_init_prob = init_prob_estimator(all_sequences)
+print("check sum up to 1: ", est_init_prob.sum())
