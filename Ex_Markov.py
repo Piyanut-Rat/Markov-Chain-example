@@ -114,6 +114,16 @@ def init_prob_estimator(all_sequences):
     #sum up to one
     return est_init_prob/est_init_prob.sum()
 
+#predict function
+def prediction(est_trans_prob, train_seq):
+    next_state_list = []
+    for each_seq in range(num_sequences):
+        current_state = train_seq[each_seq][-1]
+        
+        next_state = np.argmax(est_trans_prob[current_state, :])
+        next_state_list.append(next_state)
+    return np.array(next_state_list)
+
 """
 #----------------------------------------------------#
 
@@ -153,3 +163,29 @@ for num_sequences in range(1, 100):
 plt.figure()
 plt.plot(SSE_list)
 plt.show()
+
+#test2: result : accuracy
+
+#input parameters
+all_posible_state = [0,1] # 0 Sunny | 1 Rainy
+num_time_step = 10
+num_sequences = 10
+true_init_prob, true_trans_prob = true_table()
+all_sequences = sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_sequences)
+
+#train test split
+train_seq = np.array(all_sequences)[:,:-1].tolist()
+test_seq = np.array(all_sequences)[:,-1]
+
+#training / estimation
+est_trans_prob = trans_prob_estimator(all_sequences)
+
+#prediction
+pred_seq = prediction(est_trans_prob, train_seq)
+
+#accuracy
+print("% acc : ", (pred_seq == test_seq).sum()/len(test_seq) *100)
+
+
+
+#------------- END ----------------------------#
