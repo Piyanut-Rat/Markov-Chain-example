@@ -78,9 +78,24 @@ def sequence_generator(true_init_prob, true_trans_prob, num_time_step, num_seque
         #fin one sequence
         all_sequences.append(one_sequence)
     return all_sequences
+
+
+
+#est trans prob: Makov learning base on counting method
+
+def trans_prob_estimator(all_sequences):
+    est_trans_prob = np.zeros((2,2)) #define dimention of transition of probability 2x2
+    
+    for row in range(est_trans_prob.shape[0]): #previous state
+        for col in range(est_trans_prob.shape[1]): #next state
+            #target transition
+            target_transition = [row, col]
+            
+            #convert
+        
     
 #----------------------------------------------------#
-#----------------------------------------------------#
+
 #testing
 true_init_prob, true_trans_prob = true_table()
 
